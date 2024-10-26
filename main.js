@@ -8,8 +8,8 @@ function addToDo(event) {
     const data = new FormData(event.target);
     const toDoLabel = data.get("to-do");
 
-    //check that the to-do isn't empty, error message and red border will appear if empty. 
-    if (toDoLabel.length < 1) {
+    //check that the to-do isn't empty or short, error message and red border will appear if empty. 
+    if (toDoLabel.length < 2) {
         document.forms['to-do-form']['to-do'].style.borderColor = "red";
         document.getElementById('error-message').innerHTML="<b> * Fill in a to-do!</b>";
         return false;
