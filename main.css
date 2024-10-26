@@ -1,3 +1,56 @@
 body {
-    color: red;
+    color: black;
+    background-color: #E3D5CA;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 17px;
 }
+
+h1 {
+    text-align: center;
+}
+
+label:has(input[type=checkbox]:checked) {
+    text-decoration: line-through ;
+}
+
+
+.box {
+    width: 95%;
+    height: 95%;
+    border-color: #D5BDAF;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: medium;
+    padding: 20px;
+    margin: auto;
+    background-color: #edede9;
+    min-height:300px;
+
+  }
+
+  button {
+    text-align: center;
+    padding: 5px;
+    font-size: medium;
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 5px;
+    margin: 10px;
+    background: white;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: #D5BDAF;
+  }
+
+  ul li {
+    padding: 5px;
+  }
+
+  #to-do {
+    width: 300px;
+    padding: 5px;
+    margin: 8px;
+    box-sizing: border-box;
+  }
