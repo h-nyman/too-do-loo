@@ -15,8 +15,6 @@ label:has(input[type=checkbox]:checked) {
 
 
 .box {
-    width: 95%;
-    height: 95%;
     border-color: #D5BDAF;
     border-radius: 5px;
     border-style: solid;
