@@ -2,6 +2,8 @@
 
 This is a to-do app.
 
+![Screenshot of app](image.png)
+
 ## Quick start
 Open index.html in your web browser.
 
@@ -15,3 +17,4 @@ Open index.html in your web browser.
 Modify HTML in index.html file. 
 When you need interaction, add it to main.js. 
 Styling should be maintained in main.css.
+
