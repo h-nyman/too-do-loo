@@ -22,7 +22,6 @@ label:has(input[type=checkbox]:checked) {
     padding: 20px;
     margin: auto;
     background-color: #edede9;
-    min-height:300px;
 
   }
 
@@ -40,6 +39,7 @@ label:has(input[type=checkbox]:checked) {
     border-style: solid;
     border-radius: 5px;
     border-color: #D5BDAF;
+    min-height:300px;
   }
 
   ul li {
