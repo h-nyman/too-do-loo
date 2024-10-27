@@ -1,26 +1,28 @@
-//this is the state of the to do list used to render the UI
+// toDoList is the state that is stored to local storage. 
+// We have to keep it in sync with the UI (HTML/DOM), 
+// so that we can recover when the user reloads the page. 
 let toDoList = []
 
+// addToDo validates the to-do-form, and if everything is ok, creates a to-do.
 function addToDo(event) {
 
-    //prevent automatic submission of form
+    // prevent automatic submission of form
     event.preventDefault();
     const data = new FormData(event.target);
     const toDoLabel = data.get("to-do");
 
-    //check that the to-do isn't empty or short, error message and red border will appear if empty. 
+    // check that the to-do isn't empty or short, error message and red border will appear if empty. 
     if (toDoLabel.length < 2) {
         document.forms['to-do-form']['to-do'].style.borderColor = "red";
-        document.getElementById('error-message').innerHTML="<b> * Fill in a to-do!</b>";
+        document.getElementById('error-message').innerHTML = "<b> * Fill in a to-do!</b>";
         return false;
     }
 
-    //if there isn't a reason for error, the error style and message is cleared
+    // if there isn't a reason for error, the error style and message is cleared
     document.forms['to-do-form']['to-do'].style.borderColor = "";
     document.getElementById('error-message').innerHTML = "";
 
-
-    //creating to-do item and adding/displaying it in list
+    // creating to-do item and adding/displaying it in list
     const toDo = {
         checked: false,
         label: toDoLabel
@@ -28,53 +30,56 @@ function addToDo(event) {
     const toDoNode = createToDoElement(toDo);
     document.getElementById("to-do-list").appendChild(toDoNode);
 
-    //to-do is saved as an object in the toDoList array
+    // to-do is saved as an object in the toDoList array
     toDoList.push(toDo)
 
-    //save to local storage
+    // save to local storage
     saveLocalStorage(toDoList);
 
-    //input field is cleared after the to-do is added
+    // input field is cleared after the to-do is added
     document.getElementById("to-do").value = "";
 
-    howMany();
+    updateCompletedCount();
 }
 
+// removeToDos removes tasks that are marked as completed from the list and local storage. 
 function removeToDos() {
 
     const toDoListNode = document.getElementById("to-do-list");
 
-    //loop through the list to find items that are completed/box is checked
-    for (let i = toDoListNode.children.length -1; i >= 0; i--) {
+    // loop through the list to find items that are completed/box is checked
+    for (let i = toDoListNode.children.length - 1; i >= 0; i--) {
 
         const toDoNode = toDoListNode.children[i];
         const checkbox = toDoNode.querySelector("input[type='checkbox']");
 
-        //removing checked items from list
+        // removing checked items from list
         if (checkbox && checkbox.checked) {
             toDoListNode.removeChild(toDoNode);
-            toDoList.splice(i,1);
+            toDoList.splice(i, 1);
         }
     }
 
-    //saving updates to local storage
+    // saving updates to local storage
     saveLocalStorage(toDoList);
 }
 
+// createToDoElement creates DOM node that represents the to-do task 
+// and register a change handler that keeps track of changes in the checkbox.
 function createToDoElement(toDo) {
     const toDoNode = document.createElement("li");
 
-    //create checkbox
+    // create checkbox
     const checkbox = document.createElement("input");
     checkbox.setAttribute("type", "checkbox");
     checkbox.checked = toDo.checked;
 
-    //listen for a change event in the checkboxes, updates changes to list and saves to local storage
+    // listen for a change event in the checkboxes, updates changes to list and saves to local storage
     checkbox.addEventListener("change", event => {
         const newchecked = event.target.checked;
         toDo.checked = newchecked;
         saveLocalStorage(toDoList);
-        howMany();
+        updateCompletedCount();
     })
 
     // creates label and adds checkbox to it
@@ -82,18 +87,18 @@ function createToDoElement(toDo) {
     label.appendChild(checkbox);
     label.appendChild(document.createTextNode(toDo.label));
 
-    //adds label to list item, returns it
+    // adds label to list item, returns it
     toDoNode.appendChild(label);
-    
+
     return toDoNode;
 }
 
-//saves to do list to local storage
+// saves to do list to local storage
 function saveLocalStorage(toDoList) {
     localStorage.setItem('toDoList', JSON.stringify(toDoList));
 }
 
-//loads list from local storage
+// loads list from local storage
 function showToDo() {
     toDoList = JSON.parse(localStorage.getItem('toDoList')) || [];
     toDoList.forEach(toDo => {
@@ -101,18 +106,19 @@ function showToDo() {
         document.getElementById("to-do-list").appendChild(toDoNode);
     })
 
-    howMany();
+    updateCompletedCount();
 }
 
-//when page has loaded, register form event listener and displays saved to-do items
-window.addEventListener("load",function() {
-    document.getElementById("to-do-form").addEventListener("submit",addToDo);
+// when the page has loaded, registers form event listener and displays saved to-do items
+window.addEventListener("load", function () {
+    document.getElementById("to-do-form").addEventListener("submit", addToDo);
     showToDo();
 })
 
-function howMany() {
+// counts how many items there are in the list that are not completed and displays them in UI.
+function updateCompletedCount() {
 
-    //count items left
+    // count items left
     let itemsLeft = toDoList.length;
     for (let i = 0; i < toDoList.length; i++) {
         const toDo = toDoList[i];
@@ -121,8 +127,8 @@ function howMany() {
             itemsLeft -= 1;
         }
     }
-    
-    //display items left in UI
+
+    // display items left in UI
     let numbersDataDiv = document.getElementById("numbers")
     if (numbersDataDiv) {
         numbersDataDiv.innerHTML = `
